@@ -23,14 +23,18 @@
     --ink:#521021;
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
+  html,body{margin:0;padding:0;width:100%;max-width:100%;overflow-x:hidden;}
+  img{max-width:100%;}
   body{
-    height:100vh;
-    width:100vw;
+    min-height:100vh;
+    min-height:100dvh;
+    width:100%;
     overflow:hidden;
+    overflow-x:hidden;
     background:var(--cream);
     font-family:'Jost', sans-serif;
     color:var(--ink);
+    -webkit-text-size-adjust:100%;
   }
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
@@ -108,7 +112,7 @@
   /* ============ CURTAINS ============ */
   .curtain{
     position:fixed; top:0; bottom:0;
-    width:52%;
+    width:50.5%;
     z-index:25;
     background:
       repeating-linear-gradient(90deg,
@@ -163,7 +167,7 @@
   }
   #stageWrap::before{
     content:'';
-    position:fixed; inset:0;
+    position:absolute; inset:0;
     pointer-events:none; z-index:1;
     background-image:radial-gradient(rgba(201,24,74,0.07) 1.5px, transparent 1.6px);
     background-size:26px 26px;
@@ -449,6 +453,43 @@
   }
 
   #confetti-canvas{ position:fixed; inset:0; z-index:40; pointer-events:none; }
+
+  /* ============ MOBILE FIX (prevent enlarged look) ============ */
+  #stageWrap{
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+  }
+  section.stage{ width:100%; max-width:min(500px, 100%); }
+  .lights{ max-width:min(520px, 100%); }
+  @media (max-width:480px){
+    section.stage{ padding:12px 12px 50px; }
+    .lights{ height:32px; padding:0 10px; }
+    .lights span{ width:8px; height:8px; }
+    .garland{ font-size:17px; }
+    .arch-wrap{ width:218px; margin:10px auto 8px; }
+    .arch{ width:196px; height:196px; padding:8px; }
+    .arch-glow{ inset:-14px; filter:blur(16px); }
+    .arch-roses{ font-size:20px; bottom:-15px; }
+    .divider{ margin:10px auto 4px; }
+    .divider::before, .divider::after{ width:60px; }
+    .eyebrow-name{ font-size:18px; }
+    h1{ font-size:clamp(34px, 11vw, 44px); line-height:1; }
+    .petname{ font-size:18px; padding:5px 20px; margin:6px auto 20px; }
+    .gift-btn{ padding:14px 30px; font-size:13px; max-width:88vw; white-space:nowrap; }
+    .gate-btn{ padding:16px 34px; font-size:22px; max-width:86vw; }
+    .gate-roses{ font-size:26px; }
+    .gate-sub{ font-size:16px; padding:0 20px; text-align:center; }
+    .card{ padding:24px 14px 18px; border-radius:22px; }
+    .message{ font-size:19px; line-height:1.5; }
+    .reel-track img{ width:98px; height:126px; border-radius:13px; }
+    .curtain::after{ font-size:14px; bottom:18px; }
+  }
+  @media (max-width:360px){
+    .arch-wrap{ width:188px; }
+    .arch{ width:170px; height:170px; }
+    h1{ font-size:clamp(30px, 11vw, 38px); }
+    .gift-btn{ font-size:12px; padding:13px 24px; }
+  }
 </style>
 </head>
 <body>
