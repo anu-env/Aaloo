@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>hay aaloo 🌹❤️</title>
+<title>Hey Aaloo 🌹❤️</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500;600&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+SC:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&family=Noto+Sans+KR:wght@400;600;700&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
@@ -458,6 +458,7 @@
   /* ============ WORLD LANGUAGES ============ */
   .langs{
     margin-top:24px;
+    max-height:400px;
     background:linear-gradient(180deg, #ffffffEE, #FFE4E9DD);
     border:2px solid #FF8FA3;
     border-radius:22px;
@@ -465,6 +466,17 @@
     box-shadow:0 14px 32px rgba(122,12,38,0.18), 0 0 20px rgba(255,77,109,0.18);
     position:relative;
     overflow:hidden;
+    transition:opacity 0.6s ease, max-height 0.6s ease, margin 0.6s ease, padding 0.6s ease, transform 0.6s ease;
+  }
+  .langs.hide{
+    opacity:0;
+    max-height:0;
+    margin-top:0;
+    padding-top:0;
+    padding-bottom:0;
+    border-width:0;
+    transform:scale(0.95);
+    pointer-events:none;
   }
   .langs::before{
     content:''; position:absolute; top:0; left:0; right:0; height:5px;
@@ -577,7 +589,7 @@
 
 <div id="gate">
   <div class="gate-roses">🌹🌹🌹</div>
-  <button class="gate-btn" id="gateBtn" type="button">hay aaloo 🌹</button>
+  <button class="gate-btn" id="gateBtn" type="button">Hey Aaloo 🌹</button>
   <p class="gate-sub">a little surprise wrapped in roses for you ❤️</p>
 </div>
 
@@ -610,16 +622,15 @@
     <p class="petname">Meri Aaloo 🌹❤️</p>
 
     <br>
-    <div class="langs">
+    <button class="gift-btn" id="giftBtn" type="button">🌹 Open your gift 🌹</button>
+
+    <div class="langs" id="langsCard">
       <p class="langs-title">🌍 Happy Birthday around the world 🌹</p>
       <p class="langs-sub">for my aaloo, with love in every language</p>
       <div class="langs-viewport">
         <div class="langs-grid" id="langsGrid"></div>
       </div>
     </div>
-
-    <br>
-    <button class="gift-btn" id="giftBtn" type="button">🌹 Open your gift 🌹</button>
 
     <div class="reveal" id="revealBox">
       <div class="card">
@@ -782,6 +793,7 @@ giftBtn.addEventListener('click', () => {
   if (opened) return;
   opened = true;
   revealBox.classList.add('open');
+  document.getElementById('langsCard').classList.add('hide');
   giftBtn.textContent = 'Happy Birthday Meri Jaan! 🌹❤️';
   giftBtn.disabled = true;
   fireConfetti();
