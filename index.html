@@ -378,16 +378,27 @@
     margin:0 0 12px;
   }
   .filmstrip{
-    display:flex; gap:12px;
-    overflow-x:auto;
-    scroll-snap-type:x mandatory;
-    padding:6px 4px 14px;
-    -webkit-overflow-scrolling:touch;
+    overflow:hidden;
+    padding:14px 2px 18px;
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
-  .filmstrip::-webkit-scrollbar{ height:6px; }
-  .filmstrip::-webkit-scrollbar-thumb{ background:var(--rose); border-radius:6px; }
-  .filmstrip img{
-    scroll-snap-align:center;
+  .reel-track{
+    display:flex;
+    width:max-content;
+    animation:reel-scroll 20s linear infinite;
+    animation-play-state:paused;
+  }
+  .reveal.open .reel-track{ animation-play-state:running; }
+  .filmstrip:hover .reel-track, .filmstrip:active .reel-track{ animation-play-state:paused; }
+  .reel-group{
+    display:flex; gap:14px;
+    padding-right:14px;
+  }
+  @keyframes reel-scroll{
+    to{ transform:translateX(-50%); }
+  }
+  .reel-track img{
     flex:0 0 auto;
     width:124px; height:154px;
     object-fit:cover;
@@ -396,9 +407,36 @@
     outline:2px solid #FF8FA3;
     box-shadow:0 10px 22px rgba(122,12,38,0.3);
     cursor:pointer;
-    transition:transform 0.25s ease;
+    opacity:0;
+    transform:translateY(26px) scale(0.85);
+    transition:scale 0.25s ease, box-shadow 0.25s ease, outline-color 0.25s ease;
   }
-  .filmstrip img:hover{ transform:translateY(-4px) scale(1.04) rotate(-1deg); }
+  .reveal.open .reel-track img{
+    animation:
+      thumb-pop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+      thumb-float 3s ease-in-out infinite;
+    animation-delay:var(--d, 0s), calc(var(--d, 0s) + 0.65s);
+  }
+  @keyframes thumb-pop{
+    from{ opacity:0; transform:translateY(26px) scale(0.8) rotate(-5deg); }
+    to{ opacity:1; transform:translateY(0) scale(1) rotate(0deg); }
+  }
+  @keyframes thumb-float{
+    0%,100%{ translate:0 0; }
+    50%{ translate:0 -7px; }
+  }
+  .reel-track img:hover{ scale:1.06; box-shadow:0 14px 28px rgba(201,24,74,0.45), 0 0 18px rgba(255,77,109,0.5); z-index:2; }
+  .reel-track img.selected{
+    outline:3px solid var(--deep-rose);
+    box-shadow:0 0 0 4px #FFD6DE, 0 0 24px rgba(255,77,109,0.8), 0 12px 26px rgba(122,12,38,0.4);
+    scale:1.08;
+  }
+  .reel-track img.bounce{
+    animation:thumb-tap 0.45s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes thumb-tap{
+    0%{ scale:1; } 40%{ scale:0.9; } 70%{ scale:1.12; } 100%{ scale:1.08; }
+  }
 
   .love-note{
     margin-top:16px;
@@ -502,19 +540,55 @@ setInterval(() => {
   imgs[frameIdx].classList.add('active');
 }, 3200);
 
-/* ============ filmstrip inside reveal card ============ */
+/* ============ horizontal rotating reel inside gift card ============ */
 const filmstrip = document.getElementById('filmstrip');
+const reelTrack = document.createElement('div');
+reelTrack.className = 'reel-track';
+const groupA = document.createElement('div');
+groupA.className = 'reel-group';
+const groupB = document.createElement('div');
+groupB.className = 'reel-group';
+groupB.setAttribute('aria-hidden', 'true');
+reelTrack.appendChild(groupA);
+reelTrack.appendChild(groupB);
+filmstrip.appendChild(reelTrack);
+
+function selectPhoto(i, thumb){
+  const imgs = frame.querySelectorAll('img');
+  imgs.forEach(im => im.classList.remove('active'));
+  imgs[i].classList.add('active');
+  frameIdx = i;
+  reelTrack.querySelectorAll('img').forEach(th => th.classList.remove('selected', 'bounce'));
+  // highlight both copies
+  reelTrack.querySelectorAll('img[data-idx="' + i + '"]').forEach(th => th.classList.add('selected'));
+  if (thumb){
+    void thumb.offsetWidth;
+    thumb.classList.add('bounce');
+  }
+}
 PHOTOS.forEach((src, i) => {
-  const img = document.createElement('img');
-  img.src = src;
-  img.alt = 'Photo ' + (i + 1) + ' of Archu';
-  img.addEventListener('click', () => {
-    const imgs = frame.querySelectorAll('img');
-    imgs.forEach(im => im.classList.remove('active'));
-    imgs[i].classList.add('active');
-    frameIdx = i;
+  [groupA, groupB].forEach((group, copy) => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Photo ' + (i + 1) + ' of Archu';
+    img.dataset.idx = i;
+    img.style.setProperty('--d', (i * 0.12) + 's');
+    if (i === 0 && copy === 0) img.classList.add('selected');
+    if (i === 0 && copy === 1) img.classList.add('selected');
+    img.addEventListener('click', () => selectPhoto(i, img));
+    group.appendChild(img);
   });
-  filmstrip.appendChild(img);
+});
+/* speed adapts to photo count, pause on touch */
+reelTrack.style.animationDuration = Math.max(12, PHOTOS.length * 4) + 's';
+filmstrip.addEventListener('pointerdown', () => {
+  reelTrack.style.animationPlayState = 'paused';
+});
+filmstrip.addEventListener('pointerup', () => {
+  if (opened) reelTrack.style.animationPlayState = '';
+});
+filmstrip.addEventListener('pointerleave', () => {
+  if (opened) reelTrack.style.animationPlayState = '';
 });
 
 /* ============ birthday message ============ */
