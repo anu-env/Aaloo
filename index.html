@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>hay aaloo 🌹❤️</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500;600&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+SC:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&family=Noto+Sans+KR:wght@400;600;700&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --cream:#FFF5F7;
@@ -454,6 +455,83 @@
 
   #confetti-canvas{ position:fixed; inset:0; z-index:40; pointer-events:none; }
 
+  /* ============ WORLD LANGUAGES ============ */
+  .langs{
+    margin-top:24px;
+    background:linear-gradient(180deg, #ffffffEE, #FFE4E9DD);
+    border:2px solid #FF8FA3;
+    border-radius:22px;
+    padding:18px 14px 16px;
+    box-shadow:0 14px 32px rgba(122,12,38,0.18), 0 0 20px rgba(255,77,109,0.18);
+    position:relative;
+    overflow:hidden;
+  }
+  .langs::before{
+    content:''; position:absolute; top:0; left:0; right:0; height:5px;
+    background:linear-gradient(90deg, #7A0C26, #FF4D6D, #FFD6DE, #FF4D6D, #7A0C26);
+  }
+  .langs-title{
+    margin:4px 0 12px;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic; font-weight:600;
+    font-size:19px; color:var(--wine);
+  }
+  .langs-sub{
+    margin:0 0 12px; font-size:11px; letter-spacing:0.18em;
+    text-transform:uppercase; color:var(--deep-rose); font-weight:600;
+  }
+  .langs-viewport{
+    height:178px;
+    overflow:hidden;
+    position:relative;
+    -webkit-mask-image:linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+    mask-image:linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+    touch-action:pan-y;
+  }
+  .langs-grid{
+    display:flex; flex-direction:column;
+    gap:8px; align-items:stretch;
+    animation:langs-wheel 24s linear infinite;
+  }
+  .langs-viewport:hover .langs-grid, .langs-viewport:active .langs-grid{ animation-play-state:paused; }
+  @keyframes langs-wheel{
+    to{ transform:translateY(-50%); }
+  }
+  .lang-pill{
+    font-size:15px;
+    font-family:'Jost','Noto Sans','Noto Sans Tamil','Noto Sans Devanagari','Noto Sans Telugu','Noto Sans SC','Noto Sans JP','Noto Sans KR','Noto Sans Arabic',system-ui,'Nirmala UI','Latha','Nirmala UI','Nirmala','Catamaran',sans-serif;
+    background:#fff;
+    border:1.5px solid #FFB3C6;
+    color:var(--wine);
+    padding:8px 14px;
+    border-radius:16px;
+    box-shadow:0 4px 12px rgba(201,24,74,0.14);
+    opacity:0;
+    transform:translateY(12px) scale(0.96);
+    animation:lang-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    animation-delay:var(--ld, 0s);
+    transition:background 0.25s ease, box-shadow 0.25s ease;
+    line-height:1.4;
+    flex:0 0 auto;
+    text-align:center;
+    width:100%;
+  }
+  .lang-pill b{ font-weight:700; font-family:inherit; display:block; font-size:1em; }
+  .lang-pill small{
+    display:block; font-size:10px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--rose); font-weight:600; margin-top:2px;
+  }
+  @keyframes lang-pop{
+    to{ opacity:1; transform:translateY(0) scale(1); }
+  }
+  .lang-pill.glow{
+    background:linear-gradient(135deg, #C9184A, #FF4D6D);
+    color:#fff; border-color:#FFD6DE;
+    transform:scale(1.08);
+    box-shadow:0 8px 22px rgba(201,24,74,0.45), 0 0 16px rgba(255,77,109,0.6);
+  }
+  .lang-pill.glow small{ color:#FFD6DE; }
+
   /* ============ MOBILE FIX (prevent enlarged look) ============ */
   #stageWrap{
     -webkit-overflow-scrolling:touch;
@@ -480,6 +558,9 @@
     .gate-roses{ font-size:26px; }
     .gate-sub{ font-size:16px; padding:0 20px; text-align:center; }
     .card{ padding:24px 14px 18px; border-radius:22px; }
+    .langs{ padding:16px 10px 14px; margin-top:20px; }
+    .langs-title{ font-size:17px; }
+    .lang-pill{ font-size:12.5px; padding:6px 11px; }
     .message{ font-size:19px; line-height:1.5; }
     .reel-track img{ width:98px; height:126px; border-radius:13px; }
     .curtain::after{ font-size:14px; bottom:18px; }
@@ -529,6 +610,15 @@
     <p class="petname">Meri Aaloo 🌹❤️</p>
 
     <br>
+    <div class="langs">
+      <p class="langs-title">🌍 Happy Birthday around the world 🌹</p>
+      <p class="langs-sub">for my aaloo, with love in every language</p>
+      <div class="langs-viewport">
+        <div class="langs-grid" id="langsGrid"></div>
+      </div>
+    </div>
+
+    <br>
     <button class="gift-btn" id="giftBtn" type="button">🌹 Open your gift 🌹</button>
 
     <div class="reveal" id="revealBox">
@@ -563,6 +653,54 @@ for (let i = 0; i < 14; i++){
   const s = document.createElement('span');
   lightsRow.appendChild(s);
 }
+
+/* ============ happy birthday in world languages ============ */
+const LANGS = [
+  { lang:'English', code:'en', text:'Happy Birthday' },
+  { lang:'Hindi', code:'hi', text:'जन्मदिन मुबारक हो' },
+  { lang:'Spanish', code:'es', text:'Feliz Cumpleaños' },
+  { lang:'French', code:'fr', text:"Joyeux Anniversaire" },
+  { lang:'German', code:'de', text:'Alles Gute zum Geburtstag' },
+  { lang:'Italian', code:'it', text:'Buon Compleanno' },
+  { lang:'Portuguese', code:'pt', text:'Feliz Aniversário' },
+  { lang:'Chinese', code:'zh', text:'生日快乐' },
+  { lang:'Japanese', code:'ja', text:'お誕生日おめでとう' },
+  { lang:'Korean', code:'ko', text:'생일 축하해요' },
+  { lang:'Arabic', code:'ar', text:'عيد ميلاد سعيد' },
+  { lang:'Russian', code:'ru', text:'С Днём Рождения' },
+  { lang:'Tamil', code:'ta', text:'பிறந்தநாள் வாழ்த்துக்கள்' },
+  { lang:'Telugu', code:'te', text:'పుట్టినరోజు శుభాకాంక్షలు' }
+];
+const langsGrid = document.getElementById('langsGrid');
+function makePill(l, i){
+  const d = document.createElement('div');
+  d.className = 'lang-pill';
+  d.style.setProperty('--ld', (Math.min(i, 14) * 0.08) + 's');
+  const b = document.createElement('b');
+  b.textContent = l.text;
+  b.setAttribute('lang', l.code);
+  const s = document.createElement('small');
+  s.textContent = l.lang;
+  d.appendChild(b);
+  d.appendChild(s);
+  return d;
+}
+LANGS.forEach((l, i) => langsGrid.appendChild(makePill(l, i)));
+/* duplicate once for seamless vertical loop */
+LANGS.forEach((l, i) => {
+  const d = makePill(l, i);
+  d.setAttribute('aria-hidden', 'true');
+  langsGrid.appendChild(d);
+});
+langsGrid.style.animationDuration = Math.max(16, LANGS.length * 2.4) + 's';
+let langIdx = 0;
+setInterval(() => {
+  const pills = langsGrid.querySelectorAll('.lang-pill');
+  if (!pills.length) return;
+  pills.forEach(p => p.classList.remove('glow'));
+  pills[langIdx % pills.length].classList.add('glow');
+  langIdx++;
+}, 1400);
 
 /* ============ circular frame slideshow ============ */
 const frame = document.getElementById('photoFrame');
@@ -647,7 +785,7 @@ giftBtn.addEventListener('click', () => {
   giftBtn.textContent = 'Happy Birthday Meri Jaan! 🌹❤️';
   giftBtn.disabled = true;
   fireConfetti();
-  setTimeout(() => revealBox.scrollIntoView({behavior:'smooth', block:'center'}), 350);
+  setTimeout(() => revealBox.scrollIntoView({behavior:'smooth', block:'nearest'}), 350);
 });
 
 /* ============ confetti ============ */
